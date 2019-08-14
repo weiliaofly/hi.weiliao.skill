@@ -8,3 +8,12 @@ server:
 #  host: 192.168.12.53
 #  port: 6379
 #  password: ldvv
+
+spring:
+  data:
+    mongodb:
+      username: market
+      host: 106.13.18.96
+      port: 27017
+      password: weiliao
+      database: weiliao

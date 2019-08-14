@@ -153,6 +153,16 @@
 			<version>5.5.3</version>
 		</dependency>
 
+		<!--MongoDB支持-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongo-java-driver</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>
