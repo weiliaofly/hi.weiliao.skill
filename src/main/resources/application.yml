@@ -12,7 +12,7 @@ server:
 spring:
   data:
     mongodb:
-      username: market
+      username: weiliao
       host: 106.13.18.96
       port: 27017
       password: weiliao
