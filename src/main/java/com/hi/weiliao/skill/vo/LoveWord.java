@@ -11,7 +11,10 @@ public class LoveWord {
     private Integer abulous; //赞
     private Integer comment; //评论数量
 
+    private List<String> lables;
+
     private String creator;
+    private String lastUpdateDate;
     private String createDate;
 
     public String getId() {
@@ -76,5 +79,21 @@ public class LoveWord {
 
     public void setCreateDate(String createDate) {
         this.createDate = createDate;
+    }
+
+    public String getLastUpdateDate() {
+        return lastUpdateDate;
+    }
+
+    public void setLastUpdateDate(String lastUpdateDate) {
+        this.lastUpdateDate = lastUpdateDate;
+    }
+
+    public List<String> getLables() {
+        return lables;
+    }
+
+    public void setLables(List<String> lables) {
+        this.lables = lables;
     }
 }

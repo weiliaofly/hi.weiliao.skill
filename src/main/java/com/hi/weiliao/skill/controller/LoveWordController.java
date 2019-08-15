@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class LoveWordController {
     private ILoveWordService loveWordService;
 
     @RequestMapping(value = "/find/{pageSize}/{pageIndex}", method = RequestMethod.GET)
-    public List<LoveWord> findPage() {
+    public @ResponseBody List<LoveWord> findPage() {
         return loveWordService.query();
     }
 }
