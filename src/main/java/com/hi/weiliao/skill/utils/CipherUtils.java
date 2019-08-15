@@ -94,7 +94,7 @@ public class CipherUtils {
         return sb.toString();
     }
 
-    public static void main(String[] args) throws Exception {
+    /*public static void main(String[] args) throws Exception {
         byte[] key = initSecretKey();
         System.out.println("key："+showByteArray(key));
         Key k = toKey(key); //生成秘钥
@@ -109,5 +109,5 @@ public class CipherUtils {
         byte[] decryptData = decrypt(encryptData, k);//数据解密
         System.out.println("解密后数据: byte[]:"+showByteArray(decryptData));
         System.out.println("解密后数据: string:"+new String(decryptData));
-    }
+    }*/
 }

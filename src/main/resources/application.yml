@@ -1,13 +1,5 @@
 server:
   port: 9999
-  servlet:
-    session:
-      timeout: 600000
-
-#redis:
-#  host: 192.168.12.53
-#  port: 6379
-#  password: ldvv
 
 spring:
   data:
