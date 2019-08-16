@@ -1,5 +1,6 @@
 package com.hi.weiliao.skill.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.hi.weiliao.skill.service.ILabelService;
 import com.hi.weiliao.skill.utils.DateUtils;
 import com.hi.weiliao.skill.vo.Label;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/label")
@@ -25,8 +27,9 @@ public class LabelController {
     private ILabelService labelService;
 
     @RequestMapping(value = "/find/{pageSize}/{pageIndex}", method = RequestMethod.GET)
-    public @ResponseBody List<Label> findPage() {
-        return labelService.query();
+    public @ResponseBody List<Label> findPage(Label label) {
+        Map<String, Object> param = JSON.parseObject(JSON.toJSONString(label));
+        return labelService.query(param);
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)

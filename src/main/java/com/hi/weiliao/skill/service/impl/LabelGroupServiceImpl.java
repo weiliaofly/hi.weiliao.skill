@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class LabelGroupServiceImpl implements ILabelGroupService {
@@ -20,8 +21,12 @@ public class LabelGroupServiceImpl implements ILabelGroupService {
     private MongoTemplate mongoTemplate;
 
     @Override
-    public List<LabelGroup> query(LabelGroup labelGroup) {
-        Criteria criteria = Criteria.where("id").is(labelGroup.getId());
+    public List<LabelGroup> query(Map<String, Object> param) {
+        Criteria criteria = new Criteria();
+        param.forEach((K, V) -> {
+            criteria.and(K).is(V);
+        });
+
         return mongoTemplate.find(new Query(criteria), LabelGroup.class);
     }
 

@@ -1,5 +1,6 @@
 package com.hi.weiliao.skill.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.hi.weiliao.skill.service.ILabelGroupService;
 import com.hi.weiliao.skill.service.ILoveWordService;
 import com.hi.weiliao.skill.utils.DateUtils;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/labelgroup")
@@ -28,7 +30,8 @@ public class LabelGroupController {
 
     @RequestMapping(value = "/find/{pageSize}/{pageIndex}", method = RequestMethod.GET)
     public @ResponseBody List<LabelGroup> findPage(LabelGroup labelGroup) {
-        return labelGroupService.query(labelGroup);
+        Map<String, Object> param = JSON.parseObject(JSON.toJSONString(labelGroup));
+        return labelGroupService.query(param);
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)

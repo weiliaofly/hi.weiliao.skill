@@ -4,10 +4,12 @@ import com.hi.weiliao.skill.service.ILabelService;
 import com.hi.weiliao.skill.vo.Label;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class LabelServiceImpl implements ILabelService {
@@ -16,8 +18,13 @@ public class LabelServiceImpl implements ILabelService {
     private MongoTemplate mongoTemplate;
 
     @Override
-    public List<Label> query() {
-        return mongoTemplate.find(new Query(), Label.class);
+    public List<Label> query(Map<String, Object> param) {
+        Criteria criteria = new Criteria();
+        param.forEach((K, V) -> {
+            criteria.and(K).is(V);
+        });
+
+        return mongoTemplate.find(new Query(criteria), Label.class);
     }
 
     @Override
