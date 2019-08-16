@@ -1,5 +1,12 @@
 server:
   port: 9999
+  ssl:
+    enabled: true
+    client-auth: want
+    key-store: classpath:server.jks
+    key-store-password: eureka
+    trust-store: classpath:servertrust.jks
+    trust-store-password: eureka
 
 spring:
   data:
