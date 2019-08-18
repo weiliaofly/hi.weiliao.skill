@@ -39,4 +39,9 @@ public class LoveWordController {
         loveWord.setLastUpdateDate(now);
         return loveWordService.create(loveWord);
     }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public @ResponseBody boolean update(@RequestBody LoveWord loveWord) {
+        return loveWordService.update(loveWord);
+    }
 }
