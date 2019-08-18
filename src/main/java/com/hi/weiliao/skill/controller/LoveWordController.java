@@ -29,6 +29,7 @@ public class LoveWordController {
     @RequestMapping(value = "/find/{pageSize}/{pageIndex}", method = RequestMethod.GET)
     public @ResponseBody List<LoveWord> findPage(LoveWord loveWord) {
         Map<String, Object> param = JSON.parseObject(JSON.toJSONString(loveWord));
+        logger.info("LoveWord: Query data by param ===>" + JSON.toJSONString(param));
         return loveWordService.query(param);
     }
 
@@ -37,11 +38,14 @@ public class LoveWordController {
         String now = DateUtils.currentTimeString(DateUtils.YYYYMMDDHHMISS);
         loveWord.setCreateDate(now);
         loveWord.setLastUpdateDate(now);
+
+        logger.info("LoveWord: Create data ===> " + JSON.toJSONString(loveWord));
         return loveWordService.create(loveWord);
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public @ResponseBody boolean update(@RequestBody LoveWord loveWord) {
+        logger.info("LoveWord: Update data ===> " + JSON.toJSONString(loveWord));
         return loveWordService.update(loveWord);
     }
 }
