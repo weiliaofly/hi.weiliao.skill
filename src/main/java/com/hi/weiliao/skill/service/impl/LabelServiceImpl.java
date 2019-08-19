@@ -1,6 +1,7 @@
 package com.hi.weiliao.skill.service.impl;
 
 import com.hi.weiliao.skill.service.ILabelService;
+import com.hi.weiliao.skill.utils.DateUtils;
 import com.hi.weiliao.skill.vo.Label;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,12 +34,27 @@ public class LabelServiceImpl implements ILabelService {
 
     @Override
     public boolean create(Label label) {
+        if(StringUtils.isBlank(label.getLabel())){
+            return false;
+        }
         mongoTemplate.save(label);
         return true;
     }
 
     @Override
     public boolean update(Label label) {
+        if(StringUtils.isBlank(label.getId())){
+            return false;
+        }
+        Criteria criteria = Criteria.where("_id").is(label.getId());
+        Label his = mongoTemplate.findOne(new Query(criteria), Label.class);
+        if(his == null){
+            return false;
+        }
+        label.setCreator(his.getCreator());
+        label.setCreateDate(his.getCreateDate());
+        label.setLastUpdateDate(DateUtils.currentTimeString(DateUtils.YYYYMMDDHHMISS));
+
         mongoTemplate.save(label);
         return true;
     }

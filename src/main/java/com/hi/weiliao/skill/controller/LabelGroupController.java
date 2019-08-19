@@ -31,6 +31,7 @@ public class LabelGroupController {
     @RequestMapping(value = "/find/{pageSize}/{pageIndex}", method = RequestMethod.GET)
     public @ResponseBody List<LabelGroup> findPage(LabelGroup labelGroup) {
         Map<String, Object> param = JSON.parseObject(JSON.toJSONString(labelGroup));
+        logger.info("LabelGroup: Query data by param ===>" + JSON.toJSONString(param));
         return labelGroupService.query(param);
     }
 
@@ -39,6 +40,8 @@ public class LabelGroupController {
         String now = DateUtils.currentTimeString(DateUtils.YYYYMMDDHHMISS);
         labelGroup.setCreateDate(now);
         labelGroup.setLastUpdateDate(now);
+
+        logger.info("LabelGroup: Create data ===> " + JSON.toJSONString(labelGroup));
         return labelGroupService.create(labelGroup);
     }
 
@@ -49,6 +52,8 @@ public class LabelGroupController {
         }
         String now = DateUtils.currentTimeString(DateUtils.YYYYMMDDHHMISS);
         labelGroup.setLastUpdateDate(now);
+
+        logger.info("LabelGroup: Update data ===> " + JSON.toJSONString(labelGroup));
         return labelGroupService.update(labelGroup);
     }
 }

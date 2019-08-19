@@ -2,6 +2,7 @@ package com.hi.weiliao.skill.service.impl;
 
 import com.hi.weiliao.skill.service.ILabelGroupService;
 import com.hi.weiliao.skill.service.ILoveWordService;
+import com.hi.weiliao.skill.utils.DateUtils;
 import com.hi.weiliao.skill.vo.LabelGroup;
 import com.hi.weiliao.skill.vo.LoveWord;
 import com.mongodb.QueryBuilder;
@@ -36,12 +37,27 @@ public class LabelGroupServiceImpl implements ILabelGroupService {
 
     @Override
     public boolean create(LabelGroup labelGroup) {
+        if(StringUtils.isBlank(labelGroup.getGroupName())){
+            return false;
+        }
         mongoTemplate.save(labelGroup);
         return true;
     }
 
     @Override
     public boolean update(LabelGroup labelGroup) {
+        if(StringUtils.isBlank(labelGroup.getId())){
+            return false;
+        }
+        Criteria criteria = Criteria.where("_id").is(labelGroup.getId());
+        LabelGroup his = mongoTemplate.findOne(new Query(criteria), LabelGroup.class);
+        if(his == null){
+            return false;
+        }
+        labelGroup.setCreator(his.getCreator());
+        labelGroup.setCreateDate(his.getCreateDate());
+        labelGroup.setLastUpdateDate(DateUtils.currentTimeString(DateUtils.YYYYMMDDHHMISS));
+
         mongoTemplate.save(labelGroup);
         return true;
     }
