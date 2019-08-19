@@ -2,6 +2,7 @@ package com.hi.weiliao.skill.service.impl;
 
 import com.hi.weiliao.skill.service.ILabelService;
 import com.hi.weiliao.skill.vo.Label;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -21,6 +22,9 @@ public class LabelServiceImpl implements ILabelService {
     public List<Label> query(Map<String, Object> param) {
         Criteria criteria = new Criteria();
         param.forEach((K, V) -> {
+            if(StringUtils.isBlank(K) || StringUtils.isBlank(V.toString()) ){
+                return;
+            }
             criteria.and(K).is(V);
         });
 

@@ -5,6 +5,7 @@ import com.hi.weiliao.skill.service.ILoveWordService;
 import com.hi.weiliao.skill.vo.LabelGroup;
 import com.hi.weiliao.skill.vo.LoveWord;
 import com.mongodb.QueryBuilder;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -24,6 +25,9 @@ public class LabelGroupServiceImpl implements ILabelGroupService {
     public List<LabelGroup> query(Map<String, Object> param) {
         Criteria criteria = new Criteria();
         param.forEach((K, V) -> {
+            if(StringUtils.isBlank(K) || StringUtils.isBlank(V.toString()) ){
+                return;
+            }
             criteria.and(K).is(V);
         });
 
