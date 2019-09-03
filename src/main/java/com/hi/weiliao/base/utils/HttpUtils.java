@@ -1,4 +1,4 @@
-package com.hi.weiliao.skill.utils;
+package com.hi.weiliao.base.utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSONObject;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -42,7 +43,7 @@ public class HttpUtils {
      * get请求
      * @return
      */
-    public static String doGet(String url, Map<String, String> header) {
+    public static JSONObject doGet(String url, Map<String, String> header) {
         try {
             HttpClient client = new DefaultHttpClient();
             //发送get请求
@@ -64,7 +65,7 @@ public class HttpUtils {
                 /**读取服务器返回过来的json字符串数据**/
                 String strResult = EntityUtils.toString(response.getEntity());
 
-                return strResult;
+                return JSONObject.parseObject(strResult);
             }
         }
         catch (IOException e) {

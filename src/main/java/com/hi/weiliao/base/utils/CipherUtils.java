@@ -1,8 +1,11 @@
-package com.hi.weiliao.skill.utils;
+package com.hi.weiliao.base.utils;
+
+import sun.misc.BASE64Decoder;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
@@ -92,6 +95,19 @@ public class CipherUtils {
         sb.deleteCharAt(sb.length()-1);
         sb.append("}");
         return sb.toString();
+    }
+
+    public static String decryptS5(String sSrc, String encodingFormat, String sKey, String ivParameter) throws Exception {
+        BASE64Decoder decoder = new BASE64Decoder();
+        byte[] raw = decoder.decodeBuffer(sKey);
+        SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
+        IvParameterSpec iv = new IvParameterSpec(decoder.decodeBuffer(ivParameter));
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        cipher.init(Cipher.DECRYPT_MODE, skeySpec, iv);
+        byte[] myendicod = decoder.decodeBuffer(sSrc);
+        byte[] original = cipher.doFinal(myendicod);
+        String originalString = new String(original, encodingFormat);
+        return originalString;
     }
 
     /*public static void main(String[] args) throws Exception {
