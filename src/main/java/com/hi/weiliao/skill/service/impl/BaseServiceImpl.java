@@ -75,7 +75,14 @@ public class BaseServiceImpl<T> implements IBaseService<T> {
         mongoTemplate.remove(new Query(criteria), clazz);
     }
 
-    public static Class getSuperClassGenericType(Class clazz, int index) {
+    @Override
+    public void delete(List<String> ids) {
+        Criteria criteria = new Criteria();
+        criteria.where("_id").in(ids);
+        mongoTemplate.remove(new Query(criteria), clazz);
+    }
+
+    public Class getSuperClassGenericType(Class clazz, int index) {
         Type genType = clazz.getGenericSuperclass();// 得到泛型父类
         // 如果没有实现ParameterizedType接口，即不支持泛型，直接返回Object.class
         if (!(genType instanceof ParameterizedType)) {

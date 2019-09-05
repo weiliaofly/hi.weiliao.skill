@@ -2,6 +2,7 @@ package com.hi.weiliao.skill.service;
 
 import com.hi.weiliao.skill.vo.PageBean;
 
+import java.util.List;
 import java.util.Map;
 
 public interface IBaseService<T> {
@@ -41,5 +42,12 @@ public interface IBaseService<T> {
      * @return
      */
      void delete(String id);
+
+    /**
+     * 批量删除数据
+     * @param ids 根据ID删除
+     * @return
+     */
+     void delete(List<String> ids);
 
 }

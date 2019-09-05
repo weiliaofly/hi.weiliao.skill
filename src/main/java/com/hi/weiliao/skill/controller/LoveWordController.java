@@ -106,4 +106,14 @@ public class LoveWordController {
         loveWordService.update(loveWord);
         return new ResponseBean();
     }
+
+    /**
+     * 删除土味情话
+     * @return
+     */
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    public @ResponseBody ResponseBean operate(List<String> ids) {
+        loveWordService.delete(ids);
+        return new ResponseBean();
+    }
 }
