@@ -16,3 +16,8 @@ spring:
       port: 27017
       password: weiliao
       database: weiliao
+fastdfs:
+  tracker_servers: 106.13.18.96:22122
+  connect_timeout_in_seconds: 60
+  network_timeout_in_seconds: 600
+  charset: UTF-8

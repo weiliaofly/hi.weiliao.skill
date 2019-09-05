@@ -4,15 +4,14 @@ import com.alibaba.fastjson.JSON;
 import com.hi.weiliao.skill.service.ILabelService;
 import com.hi.weiliao.skill.utils.DateUtils;
 import com.hi.weiliao.skill.vo.Label;
+import com.hi.weiliao.skill.vo.PageBean;
+import com.hi.weiliao.skill.vo.ResponseBean;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -27,26 +26,35 @@ public class LabelController {
     private ILabelService labelService;
 
     @RequestMapping(value = "/find/{pageSize}/{pageIndex}", method = RequestMethod.GET)
-    public @ResponseBody List<Label> findPage(Label label) {
+    public @ResponseBody
+    PageBean<Label> findPage(Label label, @PathVariable Integer pageSize, @PathVariable Integer pageIndex) {
         Map<String, Object> param = JSON.parseObject(JSON.toJSONString(label));
-        return labelService.query(param);
+        logger.info("Label: Query data by param ===>" + JSON.toJSONString(param));
+        return labelService.query(new PageBean<>(pageIndex, pageSize), param);
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public @ResponseBody boolean create(@RequestBody Label Label) {
+    public @ResponseBody
+    ResponseBean create(@RequestBody Label label) {
         String now = DateUtils.currentTimeString(DateUtils.YYYYMMDDHHMISS);
-        Label.setCreateDate(now);
-        Label.setLastUpdateDate(now);
-        return labelService.create(Label);
+        label.setCreateDate(now);
+        label.setLastUpdateDate(now);
+
+        logger.info("Label: Create data ===> " + JSON.toJSONString(label));
+        labelService.create(label);
+        return new ResponseBean();
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public @ResponseBody boolean update(@RequestBody Label Label) {
-        if(StringUtils.isBlank(Label.getId())){
-            return false;
+    public @ResponseBody ResponseBean update(@RequestBody Label label) {
+        if(StringUtils.isBlank(label.getId())){
+            return new ResponseBean(ResponseBean.PARAM_ERROR_CODE, "Id cant been null!");
         }
         String now = DateUtils.currentTimeString(DateUtils.YYYYMMDDHHMISS);
-        Label.setLastUpdateDate(now);
-        return labelService.update(Label);
+        label.setLastUpdateDate(now);
+
+        logger.info("Label: Update data ===> " + JSON.toJSONString(label));
+        labelService.update(label);
+        return new ResponseBean();
     }
 }

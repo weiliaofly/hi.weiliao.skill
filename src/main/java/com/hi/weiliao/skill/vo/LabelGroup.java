@@ -1,11 +1,15 @@
 package com.hi.weiliao.skill.vo;
 
+import java.util.List;
+
 public class LabelGroup {
     private String id;
     private String groupName;
     private String description;
 
     private String fid;
+
+    private List<Label> labels;
 
     private String creator;
     private String lastUpdateDate;
@@ -65,5 +69,13 @@ public class LabelGroup {
 
     public void setFid(String fid) {
         this.fid = fid;
+    }
+
+    public List<Label> getLabels() {
+        return labels;
+    }
+
+    public void setLabels(List<Label> labels) {
+        this.labels = labels;
     }
 }
