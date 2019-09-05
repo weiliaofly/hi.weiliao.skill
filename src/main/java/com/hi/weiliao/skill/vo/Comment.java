@@ -3,9 +3,9 @@ package com.hi.weiliao.skill.vo;
 public class Comment {
     private String id;
     private String article; //评论的文章
-    private String content; //标题
+    private String content; //内容
 
-    private Integer status = 0; //状态，0-发布， 3-删除
+    private Integer status = 0; //状态，0-发布，1-草稿，2-删除
 
     private String creator;
     private String lastUpdateDate;

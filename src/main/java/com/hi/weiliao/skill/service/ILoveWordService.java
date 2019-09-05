@@ -1,11 +1,12 @@
 package com.hi.weiliao.skill.service;
 
 import com.hi.weiliao.skill.vo.LoveWord;
+import com.hi.weiliao.skill.vo.Operate;
 import com.hi.weiliao.skill.vo.PageBean;
 
 import java.util.Map;
 
-public interface ILoveWordService{
+public interface ILoveWordService extends IBaseService<LoveWord> {
 
     PageBean<LoveWord> query(PageBean<LoveWord> pageBean, Map<String, Object> param);
 

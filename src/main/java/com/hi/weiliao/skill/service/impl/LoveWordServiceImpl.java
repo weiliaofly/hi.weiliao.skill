@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class LoveWordServiceImpl implements ILoveWordService {
+public class LoveWordServiceImpl extends BaseServiceImpl<LoveWord> implements ILoveWordService {
 
     @Autowired
     private MongoTemplate mongoTemplate;

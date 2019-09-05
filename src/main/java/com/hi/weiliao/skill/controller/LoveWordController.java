@@ -2,9 +2,11 @@ package com.hi.weiliao.skill.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.hi.weiliao.skill.service.ILoveWordService;
+import com.hi.weiliao.skill.service.IOperateService;
 import com.hi.weiliao.skill.utils.DateUtils;
 import com.hi.weiliao.skill.utils.MapUtils;
 import com.hi.weiliao.skill.vo.LoveWord;
+import com.hi.weiliao.skill.vo.Operate;
 import com.hi.weiliao.skill.vo.PageBean;
 import com.hi.weiliao.skill.vo.ResponseBean;
 import org.apache.commons.lang.StringUtils;
@@ -26,6 +28,9 @@ public class LoveWordController {
 
     @Autowired
     private ILoveWordService loveWordService;
+
+    @Autowired
+    private IOperateService operateService;
 
     @RequestMapping(value = "/find/{pageSize}/{pageIndex}", method = RequestMethod.GET)
     public @ResponseBody
@@ -58,14 +63,47 @@ public class LoveWordController {
         return new ResponseBean();
     }
 
-    @RequestMapping(value = "/operate/{id}/{operate}", method = RequestMethod.POST)
-    public @ResponseBody ResponseBean operate(@PathVariable String id, @PathVariable Integer operate) {
-        Map<String, Object> param = new HashMap<>();
-        param.put("_id", id);
-        LoveWord loveWord = loveWordService.findOne(param);
+    /**
+     * 保存操作
+     * @param id 话术ID
+     * @param operate 操作 0-拷贝 1-收藏 2-点赞
+     * @return
+     */
+    @RequestMapping(value = "/operate/{id}/{operate}", method = RequestMethod.GET)
+    public @ResponseBody ResponseBean operate(@PathVariable String id, @PathVariable Integer operate, String userId) {
+        String now = DateUtils.currentTimeString(DateUtils.YYYYMMDDHHMISS);
+        LoveWord loveWord = loveWordService.findById(id);
         if(loveWord == null){
             return new ResponseBean(ResponseBean.FAIL_CODE, "This love word is not exist!");
         }
+
+        if(operate != 0){
+            Operate oper = new Operate("loveWord", id, operate, userId);
+            Operate his = operateService.findOne(JSON.parseObject(JSON.toJSONString(oper), Map.class));
+            if(his == null){
+                oper.setCreateDate(now);
+                operateService.save(oper);
+            }else {
+                operateService.delete(his.getId());
+            }
+        }
+
+        switch (operate){
+            case 0:
+                loveWord.setCopyNum(loveWord.getCopyNum() + 1);
+                break;
+            case 1:
+                loveWord.setComment(loveWord.getComment() + 1);
+                break;
+            case 2:
+                loveWord.setAbulous(loveWord.getAbulous() + 1);
+                break;
+            default:
+                break;
+        }
+
+        loveWord.setLastUpdateDate(now);
+        loveWordService.update(loveWord);
         return new ResponseBean();
     }
 }

@@ -30,7 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author 马弦
+ * @author LD
  * @date 2017年10月23日 下午2:49
  * HttpClient工具类
  */
