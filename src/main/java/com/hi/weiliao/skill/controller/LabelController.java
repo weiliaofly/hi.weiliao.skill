@@ -29,7 +29,6 @@ public class LabelController {
     @RequestMapping(value = "/find/{pageSize}/{pageIndex}", method = RequestMethod.GET)
     public @ResponseBody List<Label> findPage(Label label) {
         Map<String, Object> param = JSON.parseObject(JSON.toJSONString(label));
-        logger.info("Label: Query data by param ===>" + JSON.toJSONString(param));
         return labelService.query(param);
     }
 
@@ -38,8 +37,6 @@ public class LabelController {
         String now = DateUtils.currentTimeString(DateUtils.YYYYMMDDHHMISS);
         Label.setCreateDate(now);
         Label.setLastUpdateDate(now);
-
-        logger.info("Label: Create data ===> " + JSON.toJSONString(Label));
         return labelService.create(Label);
     }
 
@@ -50,8 +47,6 @@ public class LabelController {
         }
         String now = DateUtils.currentTimeString(DateUtils.YYYYMMDDHHMISS);
         Label.setLastUpdateDate(now);
-
-        logger.info("Label: Update data ===> " + JSON.toJSONString(Label));
         return labelService.update(Label);
     }
 }

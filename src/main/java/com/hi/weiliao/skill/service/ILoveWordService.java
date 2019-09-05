@@ -1,6 +1,5 @@
 package com.hi.weiliao.skill.service;
 
-import com.hi.weiliao.skill.vo.Label;
 import com.hi.weiliao.skill.vo.LoveWord;
 
 import java.util.List;
@@ -11,6 +10,4 @@ public interface ILoveWordService{
     List<LoveWord> query(Map<String, Object> param);
 
     boolean create(LoveWord loveWord);
-
-    boolean update(LoveWord loveWord);
 }
