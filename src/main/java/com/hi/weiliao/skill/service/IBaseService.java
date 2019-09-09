@@ -1,7 +1,7 @@
 package com.hi.weiliao.skill.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.hi.weiliao.skill.vo.PageBean;
+import com.hi.weiliao.skill.vo.common.PageBean;
 
 import java.util.List;
 

@@ -2,7 +2,7 @@ package com.hi.weiliao.skill.utils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.hi.weiliao.skill.vo.PageBean;
+import com.hi.weiliao.skill.vo.common.PageBean;
 import com.mongodb.QueryOperators;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;

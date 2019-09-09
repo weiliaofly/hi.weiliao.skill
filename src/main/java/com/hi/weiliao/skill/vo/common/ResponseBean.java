@@ -1,4 +1,4 @@
-package com.hi.weiliao.skill.vo;
+package com.hi.weiliao.skill.vo.common;
 
 public class ResponseBean {
     public static final String SUCCESS = "SUCCESS";

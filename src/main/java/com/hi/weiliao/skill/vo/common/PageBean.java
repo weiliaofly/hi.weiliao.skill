@@ -1,4 +1,4 @@
-package com.hi.weiliao.skill.vo;
+package com.hi.weiliao.skill.vo.common;
 
 import java.util.List;
 

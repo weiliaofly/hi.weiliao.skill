@@ -4,8 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.hi.weiliao.skill.service.ILabelService;
 import com.hi.weiliao.skill.utils.DateUtils;
 import com.hi.weiliao.skill.vo.Label;
-import com.hi.weiliao.skill.vo.PageBean;
-import com.hi.weiliao.skill.vo.ResponseBean;
+import com.hi.weiliao.skill.vo.common.PageBean;
+import com.hi.weiliao.skill.vo.common.ResponseBean;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @Controller

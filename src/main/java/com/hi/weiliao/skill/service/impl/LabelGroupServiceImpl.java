@@ -1,12 +1,9 @@
 package com.hi.weiliao.skill.service.impl;
 
 import com.hi.weiliao.skill.service.ILabelGroupService;
-import com.hi.weiliao.skill.service.ILoveWordService;
 import com.hi.weiliao.skill.utils.DateUtils;
 import com.hi.weiliao.skill.vo.LabelGroup;
-import com.hi.weiliao.skill.vo.LoveWord;
-import com.hi.weiliao.skill.vo.PageBean;
-import com.mongodb.QueryBuilder;
+import com.hi.weiliao.skill.vo.common.PageBean;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;

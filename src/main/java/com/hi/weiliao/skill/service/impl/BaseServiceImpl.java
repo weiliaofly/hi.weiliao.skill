@@ -3,7 +3,7 @@ package com.hi.weiliao.skill.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.hi.weiliao.skill.service.IBaseService;
 import com.hi.weiliao.skill.utils.MongoUtils;
-import com.hi.weiliao.skill.vo.PageBean;
+import com.hi.weiliao.skill.vo.common.PageBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
