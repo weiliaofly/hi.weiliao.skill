@@ -79,7 +79,7 @@ public class LoveWordController {
 
         if(operate != 0){
             Operate oper = new Operate("loveWord", id, operate, userId);
-            Operate his = operateService.findOne(JSON.parseObject(JSON.toJSONString(oper), Map.class));
+            Operate his = operateService.findOne(JSON.parseObject(JSON.toJSONString(oper)));
             if(his == null){
                 oper.setCreateDate(now);
                 operateService.save(oper);
