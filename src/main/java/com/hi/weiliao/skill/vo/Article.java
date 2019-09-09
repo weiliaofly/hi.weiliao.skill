@@ -4,7 +4,7 @@ public class Article {
     private String id;
     private String articleName;
     private String title; //标题
-    private String content; //标题
+    private String content; //内容
 
     private Integer view = 0; //查看次数
     private Integer abulous = 0; //赞

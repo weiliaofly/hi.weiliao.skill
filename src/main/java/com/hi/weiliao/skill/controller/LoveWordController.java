@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -109,9 +110,10 @@ public class LoveWordController {
      * 删除土味情话
      * @return
      */
-    @RequestMapping(value = "/delete", method = RequestMethod.GET)
-    public @ResponseBody ResponseBean operate(List<String> ids) {
-        loveWordService.delete(ids);
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    public @ResponseBody ResponseBean operate(String ids) {
+        List<String> idList = Arrays.asList(ids.split(","));
+        loveWordService.delete(idList);
         return new ResponseBean();
     }
 }
