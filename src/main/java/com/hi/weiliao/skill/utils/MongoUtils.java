@@ -70,6 +70,7 @@ public class MongoUtils {
      */
     private static void buildQueryBase(JSONObject jsonObject, Criteria criteria){
         jsonObject.forEach((K, V) -> {
+            K = K.equals("id") ? "_id" : K;
             switch (K){
                 case QueryOperators.OR: //至少一个满足---数组
                     Criteria criteriaOr = new Criteria();

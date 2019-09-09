@@ -1,9 +1,9 @@
 package com.hi.weiliao.skill.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.hi.weiliao.skill.vo.PageBean;
 
 import java.util.List;
-import java.util.Map;
 
 public interface IBaseService<T> {
 
@@ -13,14 +13,21 @@ public interface IBaseService<T> {
      * @param param 查询参数
      * @return
      */
-    PageBean<T> find(PageBean<T> pageBean, Map<String, Object> param);
+    PageBean<T> find(PageBean<T> pageBean, JSONObject param);
+
+    /**
+     * 分页查询
+     * @param param 查询参数
+     * @return
+     */
+    List<T> find(JSONObject param);
 
     /**
      * 查询单条数据
      * @param param 查询参数
      * @return
      */
-     T findOne(Map<String, Object> param);
+     T findOne(JSONObject param);
 
     /**
      * 根据ID查询
