@@ -1,6 +1,5 @@
 package com.hi.weiliao.skill.controller;
 
-import com.hi.weiliao.skill.service.IArticleService;
 import com.hi.weiliao.skill.utils.FastDFSClient;
 import com.hi.weiliao.skill.vo.common.ResponseBean;
 import org.apache.poi.util.IOUtils;
@@ -12,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 
 @Controller
 @RequestMapping(value = "/file")

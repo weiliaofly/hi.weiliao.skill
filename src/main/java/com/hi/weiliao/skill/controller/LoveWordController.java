@@ -112,6 +112,9 @@ public class LoveWordController {
      */
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public @ResponseBody ResponseBean operate(String ids) {
+        if(StringUtils.isBlank(ids)){
+            return new ResponseBean(ResponseBean.FAIL_CODE, ResponseBean.FAIL + "IDS is null!");
+        }
         List<String> idList = Arrays.asList(ids.split(","));
         loveWordService.delete(idList);
         return new ResponseBean();

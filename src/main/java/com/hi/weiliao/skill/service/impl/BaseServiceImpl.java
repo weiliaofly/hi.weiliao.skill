@@ -66,14 +66,14 @@ public class BaseServiceImpl<T> implements IBaseService<T> {
     @Override
     public void delete(String id) {
         Criteria criteria = new Criteria();
-        criteria.where("_id").is(id);
+        criteria.and("_id").is(id);
         mongoTemplate.remove(new Query(criteria), clazz);
     }
 
     @Override
     public void delete(List<String> ids) {
         Criteria criteria = new Criteria();
-        criteria.where("_id").in(ids);
+        criteria.and("_id").in(ids);
         mongoTemplate.remove(new Query(criteria), clazz);
     }
 
