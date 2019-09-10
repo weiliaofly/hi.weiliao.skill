@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.File;
@@ -25,7 +26,7 @@ public class FileController {
     private FastDFSClient fastDFSClient;
 
     @RequestMapping(value = "/upload", method = RequestMethod.GET)
-    public @ResponseBody ResponseBean findPage(File file) {
+    public @ResponseBody ResponseBean findPage(@RequestParam("uploadFile") File file) {
         try {
             InputStream inputStream = new FileInputStream(file);
             String url = fastDFSClient.uploadFile(IOUtils.toByteArray(inputStream));
