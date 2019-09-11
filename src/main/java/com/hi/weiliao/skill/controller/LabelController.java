@@ -1,6 +1,7 @@
 package com.hi.weiliao.skill.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.hi.weiliao.skill.service.ILabelService;
 import com.hi.weiliao.skill.utils.DateUtils;
 import com.hi.weiliao.skill.vo.Label;
@@ -13,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -27,9 +30,16 @@ public class LabelController {
     @RequestMapping(value = "/find/{pageSize}/{pageIndex}", method = RequestMethod.GET)
     public @ResponseBody
     PageBean<Label> findPage(Label label, @PathVariable Integer pageSize, @PathVariable Integer pageIndex) {
-        Map<String, Object> param = JSON.parseObject(JSON.toJSONString(label));
+        JSONObject param = JSON.parseObject(JSON.toJSONString(label));
         logger.info("Label: Query data by param ===>" + JSON.toJSONString(param));
-        return labelService.query(new PageBean<>(pageIndex, pageSize), param);
+
+        if(StringUtils.isNotBlank(label.getLabel())){
+            JSONObject labelObj = new JSONObject();
+            labelObj.put("$regex", label.getLabel());
+            param.put("label", labelObj);
+        }
+
+        return labelService.find(new PageBean<>(pageIndex, pageSize), param);
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -40,7 +50,7 @@ public class LabelController {
         label.setLastUpdateDate(now);
 
         logger.info("Label: Create data ===> " + JSON.toJSONString(label));
-        labelService.create(label);
+        labelService.save(label);
         return new ResponseBean();
     }
 
@@ -53,7 +63,21 @@ public class LabelController {
         label.setLastUpdateDate(now);
 
         logger.info("Label: Update data ===> " + JSON.toJSONString(label));
-        labelService.update(label);
+        labelService.save(label);
+        return new ResponseBean();
+    }
+
+    /**
+     * 删除土味情话
+     * @return
+     */
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    public @ResponseBody ResponseBean operate(String ids) {
+        if(StringUtils.isBlank(ids)){
+            return new ResponseBean(ResponseBean.FAIL_CODE, ResponseBean.FAIL + "IDS is null!");
+        }
+        List<String> idList = Arrays.asList(ids.split(","));
+        labelService.delete(idList);
         return new ResponseBean();
     }
 }

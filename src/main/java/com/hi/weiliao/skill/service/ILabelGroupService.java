@@ -5,11 +5,6 @@ import com.hi.weiliao.skill.vo.common.PageBean;
 
 import java.util.Map;
 
-public interface ILabelGroupService {
+public interface ILabelGroupService extends IBaseService<LabelGroup> {
 
-    PageBean<LabelGroup> query(PageBean<LabelGroup> pageBean, Map<String, Object> param);
-
-    boolean create(LabelGroup labelGroup);
-
-    boolean update(LabelGroup labelGroup);
 }

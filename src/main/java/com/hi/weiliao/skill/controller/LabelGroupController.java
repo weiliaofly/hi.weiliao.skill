@@ -1,6 +1,7 @@
 package com.hi.weiliao.skill.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.hi.weiliao.skill.service.ILabelGroupService;
 import com.hi.weiliao.skill.service.ILabelService;
 import com.hi.weiliao.skill.utils.DateUtils;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,19 +35,26 @@ public class LabelGroupController {
     @RequestMapping(value = "/find/{pageSize}/{pageIndex}", method = RequestMethod.GET)
     public @ResponseBody
     PageBean<LabelGroup> findPage(LabelGroup labelGroup, @PathVariable Integer pageSize, @PathVariable Integer pageIndex) {
-        Map<String, Object> param = JSON.parseObject(JSON.toJSONString(labelGroup));
+        JSONObject param = JSON.parseObject(JSON.toJSONString(labelGroup));
         logger.info("LabelGroup: Query data by param ===>" + JSON.toJSONString(param));
-        PageBean<LabelGroup> pageBean = labelGroupService.query(new PageBean<>(pageIndex, pageSize), param);
+
+        if(StringUtils.isNotBlank(labelGroup.getGroupName())){
+            JSONObject group = new JSONObject();
+            group.put("$regex", labelGroup.getGroupName());
+            param.put("groupName", group);
+        }
+        PageBean<LabelGroup> pageBean = labelGroupService.find(new PageBean<>(pageIndex, pageSize), param);
+
         List<LabelGroup> datas = pageBean.getDatas();
 
         if(datas == null || datas.size() == 0){
             return pageBean;
         }
 
-        Map<String, Object> query = new HashMap<>();
+        JSONObject query = new JSONObject();
         for (LabelGroup group : datas) {
             query.put("labelGroup", group.getId());
-            group.setLabels(labelService.findList(query));
+            group.setLabels(labelService.find(query));
         }
         pageBean.setDatas(datas);
 
@@ -59,7 +68,7 @@ public class LabelGroupController {
         labelGroup.setLastUpdateDate(now);
 
         logger.info("LabelGroup: Create data ===> " + JSON.toJSONString(labelGroup));
-        labelGroupService.create(labelGroup);
+        labelGroupService.save(labelGroup);
         return new ResponseBean();
     }
 
@@ -72,7 +81,21 @@ public class LabelGroupController {
         labelGroup.setLastUpdateDate(now);
 
         logger.info("LabelGroup: Update data ===> " + JSON.toJSONString(labelGroup));
-        labelGroupService.update(labelGroup);
+        labelGroupService.save(labelGroup);
+        return new ResponseBean();
+    }
+
+    /**
+     * 删除土味情话
+     * @return
+     */
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    public @ResponseBody ResponseBean operate(String ids) {
+        if(StringUtils.isBlank(ids)){
+            return new ResponseBean(ResponseBean.FAIL_CODE, ResponseBean.FAIL + "IDS is null!");
+        }
+        List<String> idList = Arrays.asList(ids.split(","));
+        labelGroupService.delete(idList);
         return new ResponseBean();
     }
 }

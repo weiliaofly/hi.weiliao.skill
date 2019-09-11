@@ -16,9 +16,9 @@ import java.util.List;
 public class BaseServiceImpl<T> implements IBaseService<T> {
 
     @Autowired
-    private MongoTemplate mongoTemplate;
+    protected MongoTemplate mongoTemplate;
 
-    private Class<T> clazz;
+    protected Class<T> clazz;
 
     public BaseServiceImpl(){
         this.clazz = getSuperClassGenericType(this.getClass());

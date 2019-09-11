@@ -7,11 +7,4 @@ import java.util.Map;
 
 public interface ILoveWordService extends IBaseService<LoveWord> {
 
-    PageBean<LoveWord> query(PageBean<LoveWord> pageBean, Map<String, Object> param);
-
-    LoveWord findOne(Map<String, Object> param);
-
-    boolean create(LoveWord loveWord);
-
-    boolean update(LoveWord loveWord);
 }

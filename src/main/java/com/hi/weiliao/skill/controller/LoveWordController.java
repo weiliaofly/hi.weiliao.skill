@@ -1,6 +1,7 @@
 package com.hi.weiliao.skill.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.hi.weiliao.skill.service.ILoveWordService;
 import com.hi.weiliao.skill.service.IOperateService;
 import com.hi.weiliao.skill.utils.DateUtils;
@@ -34,10 +35,15 @@ public class LoveWordController {
     @RequestMapping(value = "/find/{pageSize}/{pageIndex}", method = RequestMethod.GET)
     public @ResponseBody
     PageBean<LoveWord> findPage(LoveWord loveWord, @PathVariable Integer pageSize,  @PathVariable Integer pageIndex) {
-        Map<String, Object> param = JSON.parseObject(JSON.toJSONString(loveWord));
+        JSONObject param = JSON.parseObject(JSON.toJSONString(loveWord));
         logger.info("LoveWord: Query data by param ===>" + JSON.toJSONString(param));
+        if(StringUtils.isNotBlank(loveWord.getSkillContent())){
+            JSONObject skillContent = new JSONObject();
+            skillContent.put("$regex", loveWord.getSkillContent());
+            param.put("skillContent", skillContent);
+        }
 
-        return loveWordService.query(new PageBean<>(pageIndex, pageSize), param);
+        return loveWordService.find(new PageBean<>(pageIndex, pageSize), param);
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -46,7 +52,7 @@ public class LoveWordController {
         for (LoveWord loveWord : loveWords) {
             loveWord.setCreateDate(now);
             loveWord.setLastUpdateDate(now);
-            loveWordService.create(loveWord);
+            loveWordService.save(loveWord);
         }
         logger.info("LoveWord: Create data ===> " + JSON.toJSONString(loveWords));
         return new ResponseBean();
@@ -58,7 +64,7 @@ public class LoveWordController {
             return new ResponseBean(ResponseBean.PARAM_ERROR_CODE, "Id cant been null!");
         }
         logger.info("LoveWord: Update data ===> " + JSON.toJSONString(loveWord));
-        loveWordService.update(loveWord);
+        loveWordService.save(loveWord);
         return new ResponseBean();
     }
 
@@ -102,7 +108,7 @@ public class LoveWordController {
         }
 
         loveWord.setLastUpdateDate(now);
-        loveWordService.update(loveWord);
+        loveWordService.save(loveWord);
         return new ResponseBean();
     }
 
