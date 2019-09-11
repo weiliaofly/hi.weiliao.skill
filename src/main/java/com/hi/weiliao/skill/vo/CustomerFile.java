@@ -5,13 +5,21 @@ public class CustomerFile {
     private String fileName;
     private String fileType; //后缀
     private String url;
-    private String size;
+    private Long size;
     private Integer status = 0; //状态，0-正常，1-删除
     private Integer type = 3; //类型，0-图片，1-视频， 2-文档， 3-其他
 
     private String creator;
     private String lastUpdateDate;
     private String createDate;
+
+    public CustomerFile(){}
+    public CustomerFile(String fileName, String fileType, String url, Long size){
+        this.fileName = fileName;
+        this.fileType = fileType;
+        this.url = url;
+        this.size = size;
+    }
 
     public String getId() {
         return id;
@@ -45,11 +53,11 @@ public class CustomerFile {
         this.url = url;
     }
 
-    public String getSize() {
+    public Long getSize() {
         return size;
     }
 
-    public void setSize(String size) {
+    public void setSize(Long size) {
         this.size = size;
     }
 
