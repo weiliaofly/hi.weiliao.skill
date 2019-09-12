@@ -14,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Controller
 @RequestMapping(value = "/comment")
 public class CommentController {
@@ -28,6 +31,12 @@ public class CommentController {
     PageBean<Comment> findPage(Comment comment, @PathVariable Integer pageSize, @PathVariable Integer pageIndex) {
         JSONObject param = JSON.parseObject(JSON.toJSONString(comment));
         logger.info("comment: Query data by param ===>" + JSON.toJSONString(param));
+
+        if(StringUtils.isNotBlank(comment.getContent())){
+            JSONObject content = new JSONObject();
+            content.put("$regex", comment.getContent());
+            param.put("title", content);
+        }
         PageBean<Comment> pageBean = commentService.find(new PageBean<>(pageIndex, pageSize), param);
         return pageBean;
     }
@@ -54,6 +63,20 @@ public class CommentController {
 
         logger.info("comment: Update data ===> " + JSON.toJSONString(comment));
         commentService.save(comment);
+        return new ResponseBean();
+    }
+
+    /**
+     * 删除土味情话
+     * @return
+     */
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    public @ResponseBody ResponseBean operate(String ids) {
+        if(StringUtils.isBlank(ids)){
+            return new ResponseBean(ResponseBean.FAIL_CODE, ResponseBean.FAIL + "IDS is null!");
+        }
+        List<String> idList = Arrays.asList(ids.split(","));
+        commentService.delete(idList);
         return new ResponseBean();
     }
 }
