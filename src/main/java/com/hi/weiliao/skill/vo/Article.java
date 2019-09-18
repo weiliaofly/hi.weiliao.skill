@@ -6,15 +6,16 @@ public class Article {
     private String title; //标题
     private String content; //内容
 
-    private Integer view = 0; //查看次数
-    private Integer abulous = 0; //赞
-    private Integer comment = 0; //评论数量
-    private Integer forward = 0; //转发数量
+    private Integer view; //查看次数
+    private Integer abulous; //赞
+    private Integer comment; //评论数量
+    private Integer forward; //转发数量
+    private Integer collection; //转发数量
 
-    private Integer like = 0; //喜欢数量
+    private Integer like; //喜欢数量
 
-    private Integer status = 0; //状态，0-草稿，1-待审核，2-发布， 3-删除
-    private Integer type = 3; //类型，0-自创，1-转载， 3-其他
+    private Integer status; //状态，0-草稿，1-待审核，2-发布， 3-删除
+    private Integer type; //类型，0-自创，1-转载， 3-其他
 
     private String forwardOriginal; //转载原始文章
     private String description; //备注
@@ -149,5 +150,13 @@ public class Article {
 
     public void setLike(Integer like) {
         this.like = like;
+    }
+
+    public Integer getCollection() {
+        return collection;
+    }
+
+    public void setCollection(Integer collection) {
+        this.collection = collection;
     }
 }
