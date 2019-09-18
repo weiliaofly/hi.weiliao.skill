@@ -154,4 +154,20 @@ public class Article {
     public void setLike(Integer like) {
         this.like = like;
     }
+
+    public Integer getCollection() {
+        return collection;
+    }
+
+    public void setCollection(Integer collection) {
+        this.collection = collection;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
 }
