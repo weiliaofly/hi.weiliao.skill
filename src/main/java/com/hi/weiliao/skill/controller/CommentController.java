@@ -31,6 +31,12 @@ public class CommentController {
     PageBean<Comment> findPage(Comment comment, @PathVariable Integer pageSize, @PathVariable Integer pageIndex) {
         JSONObject param = JSON.parseObject(JSON.toJSONString(comment));
         logger.info("comment: Query data by param ===>" + JSON.toJSONString(param));
+
+        if(StringUtils.isNotBlank(comment.getContent())){
+            JSONObject content = new JSONObject();
+            content.put("$regex", comment.getContent());
+            param.put("title", content);
+        }
         PageBean<Comment> pageBean = commentService.find(new PageBean<>(pageIndex, pageSize), param);
         return pageBean;
     }

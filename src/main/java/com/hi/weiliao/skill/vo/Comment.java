@@ -4,6 +4,7 @@ public class Comment {
     private String id;
     private String article; //评论的文章
     private String content; //内容
+    private String fid; //评论评论
 
     private Integer status = 0; //状态，0-发布，1-草稿，2-删除
 
@@ -65,5 +66,13 @@ public class Comment {
 
     public void setCreateDate(String createDate) {
         this.createDate = createDate;
+    }
+
+    public String getFid() {
+        return fid;
+    }
+
+    public void setFid(String fid) {
+        this.fid = fid;
     }
 }

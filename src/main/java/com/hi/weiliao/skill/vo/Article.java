@@ -1,5 +1,7 @@
 package com.hi.weiliao.skill.vo;
 
+import java.util.List;
+
 public class Article {
     private String id;
     private String articleName;
@@ -19,6 +21,7 @@ public class Article {
 
     private String forwardOriginal; //转载原始文章
     private String description; //备注
+    private List<Comment> comments; //备注
 
     private String creator;
     private String lastUpdateDate;
@@ -150,13 +153,5 @@ public class Article {
 
     public void setLike(Integer like) {
         this.like = like;
-    }
-
-    public Integer getCollection() {
-        return collection;
-    }
-
-    public void setCollection(Integer collection) {
-        this.collection = collection;
     }
 }
