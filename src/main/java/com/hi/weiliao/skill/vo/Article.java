@@ -6,6 +6,7 @@ public class Article {
     private String id;
     private String articleName;
     private String title; //标题
+    private String image; //标题
     private String content; //内容
 
     private Integer view; //查看次数
@@ -169,5 +170,13 @@ public class Article {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }
