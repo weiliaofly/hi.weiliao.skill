@@ -6,7 +6,8 @@ public class Article {
     private String id;
     private String articleName;
     private String title; //标题
-    private String image; //标题
+    private List<String> images; //图片
+    private List<String> labels; //图片
     private String content; //内容
 
     private Integer view; //查看次数
@@ -172,11 +173,19 @@ public class Article {
         this.comments = comments;
     }
 
-    public String getImage() {
-        return image;
+    public List<String> getImages() {
+        return images;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImages(List<String> images) {
+        this.images = images;
+    }
+
+    public List<String> getLabels() {
+        return labels;
+    }
+
+    public void setLabels(List<String> labels) {
+        this.labels = labels;
     }
 }
