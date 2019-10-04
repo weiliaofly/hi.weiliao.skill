@@ -5,6 +5,7 @@ import com.hi.weiliao.skill.service.IBaseService;
 import com.hi.weiliao.skill.utils.MongoUtils;
 import com.hi.weiliao.skill.vo.common.PageBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -37,7 +38,8 @@ public class BaseServiceImpl<T> implements IBaseService<T> {
         Criteria criteria = MongoUtils.buildQuery(json);
         Query query = MongoUtils.buildQueryByPage(json, pageBean);
         long total = mongoTemplate.count(new Query(criteria), clazz);
-        List<T> datas = mongoTemplate.find(query, clazz);
+        Sort sort = new Sort(Sort.Direction.DESC, "lastUpdateDate");
+        List<T> datas = mongoTemplate.find(query.with(sort), clazz);
 
         pageBean.setDatas(datas);
         pageBean.setTotal(total);
