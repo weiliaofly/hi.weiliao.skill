@@ -60,17 +60,24 @@ public class ArticleController {
         PageBean<Article> page = articleService.find(new PageBean<>(pageIndex, pageSize), param);
         List<Article> list = page.getDatas();
 
-        JSONObject query = new JSONObject();
-
         for (Article item: list) {
-            query.put("article", item.getId());
-
-            List<Comment> comments = commentService.find(query);
-            item.setComments(comments);
+            item.setContent(null);
         }
         page.setDatas(list);
 
         return page;
+    }
+
+    @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
+    public @ResponseBody
+    Article findPage(@PathVariable String id) {
+        Article article = articleService.findById(id);
+        JSONObject query = new JSONObject();
+        query.put("article", article.getId());
+
+        List<Comment> comments = commentService.find(query);
+        article.setComments(comments);
+        return article;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
