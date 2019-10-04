@@ -10,6 +10,8 @@ public class Article {
     private List<String> labels; //图片
     private String content; //内容
 
+    private Integer value; //价值
+
     private Integer view; //查看次数
     private Integer abulous; //赞
     private Integer comment; //评论数量
@@ -187,5 +189,13 @@ public class Article {
 
     public void setLabels(List<String> labels) {
         this.labels = labels;
+    }
+
+    public Integer getValue() {
+        return value;
+    }
+
+    public void setValue(Integer value) {
+        this.value = value;
     }
 }
