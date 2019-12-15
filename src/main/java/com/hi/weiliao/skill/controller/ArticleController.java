@@ -188,7 +188,7 @@ public class ArticleController {
 
     /**
      * 操作列表查询
-     * @param operate 操作 0-拷贝 1-收藏 2-点赞
+     * @param operate 操作 0-转发 1-收藏 2-点赞 3-喜欢
      * @return
      */
     @RequestMapping(value = "/operate/{operate}", method = RequestMethod.GET)

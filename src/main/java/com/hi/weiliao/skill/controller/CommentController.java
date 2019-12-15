@@ -58,11 +58,16 @@ public class CommentController {
         if(StringUtils.isBlank(comment.getId())){
             return new ResponseBean(ResponseBean.PARAM_ERROR_CODE, "Id cant been null!");
         }
+
+        //查询旧数据
+        Comment his = commentService.findById(comment.getId());
         String now = DateUtils.currentTimeString(DateUtils.YYYYMMDDHHMISS);
-        comment.setLastUpdateDate(now);
+        his.setLastUpdateDate(now);
+        his.setContent(comment.getContent());
+        his.setStatus(comment.getStatus());
 
         logger.info("comment: Update data ===> " + JSON.toJSONString(comment));
-        commentService.save(comment);
+        commentService.save(his);
         return new ResponseBean();
     }
 
