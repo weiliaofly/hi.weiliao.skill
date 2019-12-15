@@ -19,11 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.*;
 import java.util.List;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 @Controller
 @RequestMapping(value = "/article")
@@ -185,5 +182,35 @@ public class ArticleController {
         article.setView(0);
         article.setType(article.getType() == null? 3: article.getType());
         article.setStatus(article.getStatus() == null? 0: article.getStatus());
+    }
+
+
+
+    /**
+     * 操作列表查询
+     * @param operate 操作 0-拷贝 1-收藏 2-点赞
+     * @return
+     */
+    @RequestMapping(value = "/operate/{operate}", method = RequestMethod.GET)
+    public @ResponseBody ResponseBean operate(@PathVariable Integer operate, String userId) {
+        JSONObject param = new JSONObject();
+        param.put("object", "article");
+        param.put("operate", operate);
+        if(StringUtils.isNotBlank(userId)){
+            param.put("creator", userId);
+        }
+        List<Operate> loveWords = operateService.find(param);
+
+        List<String> ids = new ArrayList<>();
+        loveWords.forEach(item -> {
+            ids.add(item.getId());
+        });
+
+        String paramJson = "{\"id\": {\"$in\": " + ids + "}}";
+        List<Article> articles = articleService.find(JSON.parseObject(paramJson));
+        for (Article item: articles) {
+            item.setContent(null);
+        }
+        return new ResponseBean(ResponseBean.SUCCESS_CODE, ResponseBean.SUCCESS, articles);
     }
 }

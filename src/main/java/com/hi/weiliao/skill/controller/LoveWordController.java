@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.hi.weiliao.skill.service.ILoveWordService;
 import com.hi.weiliao.skill.service.IOperateService;
 import com.hi.weiliao.skill.utils.DateUtils;
+import com.hi.weiliao.skill.vo.Article;
 import com.hi.weiliao.skill.vo.LoveWord;
 import com.hi.weiliao.skill.vo.Operate;
 import com.hi.weiliao.skill.vo.common.PageBean;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -124,5 +126,32 @@ public class LoveWordController {
         List<String> idList = Arrays.asList(ids.split(","));
         loveWordService.delete(idList);
         return new ResponseBean();
+    }
+
+
+
+    /**
+     * 操作列表查询
+     * @param operate 操作 0-拷贝 1-收藏 2-点赞
+     * @return
+     */
+    @RequestMapping(value = "/operate/{operate}", method = RequestMethod.GET)
+    public @ResponseBody ResponseBean operate(@PathVariable Integer operate, String userId) {
+        JSONObject param = new JSONObject();
+        param.put("object", "");
+        param.put("operate", operate);
+        if(StringUtils.isNotBlank(userId)){
+            param.put("creator", userId);
+        }
+        List<Operate> loveWords = operateService.find(param);
+
+        List<String> ids = new ArrayList<>();
+        loveWords.forEach(item -> {
+            ids.add(item.getId());
+        });
+
+        String paramJson = "{\"id\": {\"$in\": " + ids + "}}";
+        List<LoveWord> list = loveWordService.find(JSON.parseObject(paramJson));
+        return new ResponseBean(ResponseBean.SUCCESS_CODE, ResponseBean.SUCCESS, list);
     }
 }
