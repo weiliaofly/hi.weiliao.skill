@@ -7,9 +7,9 @@ public class LoveWord {
     private String skillName; //名字
     private String skillContent; //内容
 
-    private Integer copyNum = 0; //拷贝次数
-    private Integer abulous = 0; //赞
-    private Integer comment = 0; //评论数量
+    private Integer copyNum; //拷贝次数
+    private Integer abulous; //赞
+    private Integer comment; //评论数量
 
     private List<String> lables;
 

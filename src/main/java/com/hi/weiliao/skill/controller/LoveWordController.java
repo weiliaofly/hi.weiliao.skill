@@ -52,6 +52,10 @@ public class LoveWordController {
     public @ResponseBody ResponseBean create(@RequestBody List<LoveWord> loveWords) {
         String now = DateUtils.currentTimeString(DateUtils.YYYYMMDDHHMISS);
         for (LoveWord loveWord : loveWords) {
+            loveWord.setAbulous(loveWord.getAbulous() == null? 0: loveWord.getAbulous());
+            loveWord.setCopyNum(loveWord.getCopyNum() == null? 0: loveWord.getCopyNum());
+            loveWord.setComment(loveWord.getComment() == null? 0: loveWord.getComment());
+
             loveWord.setCreateDate(now);
             loveWord.setLastUpdateDate(now);
             loveWordService.save(loveWord);
