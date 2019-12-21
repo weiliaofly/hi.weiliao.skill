@@ -11,6 +11,25 @@ public class LoveWord {
     private Integer abulous; //赞
     private Integer comment; //评论数量
 
+    public Boolean getIsAbulous() {
+        return isAbulous;
+    }
+
+    public void setIsAbulous(Boolean abulous) {
+        isAbulous = abulous;
+    }
+
+    public Boolean getIsCollected() {
+        return isCollected;
+    }
+
+    public void setIsCollected(Boolean collected) {
+        isCollected = collected;
+    }
+
+    private Boolean isAbulous; //评论数量
+    private Boolean isCollected; //评论数量
+
     private List<String> lables;
 
     private String creator;

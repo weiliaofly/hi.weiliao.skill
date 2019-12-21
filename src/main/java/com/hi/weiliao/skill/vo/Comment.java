@@ -9,6 +9,7 @@ public class Comment {
     private Integer status = 0; //状态，0-发布，1-草稿，2-删除
 
     private String creator;
+    private String creatorImg;
     private String lastUpdateDate;
     private String createDate;
 
@@ -74,5 +75,13 @@ public class Comment {
 
     public void setFid(String fid) {
         this.fid = fid;
+    }
+
+    public String getCreatorImg() {
+        return creatorImg;
+    }
+
+    public void setCreatorImg(String creatorImg) {
+        this.creatorImg = creatorImg;
     }
 }

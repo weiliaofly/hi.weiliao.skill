@@ -10,6 +10,16 @@ public class Article {
     private List<String> labels; //图片
     private String content; //内容
 
+    public Boolean getIsCollected() {
+        return isCollected;
+    }
+
+    public void setIsCollected(Boolean collected) {
+        isCollected = collected;
+    }
+
+    private Boolean isCollected; //是否收藏
+
     private Integer value; //价值
 
     private Integer view; //查看次数

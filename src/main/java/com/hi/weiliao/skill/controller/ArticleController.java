@@ -72,8 +72,18 @@ public class ArticleController {
         JSONObject query = new JSONObject();
         query.put("article", article.getId());
 
+        article.setView(article.getView() == null? 1: article.getView() + 1);
+        articleService.save(article);
+
         List<Comment> comments = commentService.find(query);
         article.setComments(comments);
+
+        query.clear();
+        query.put("objectId", article.getId());
+        query.put("object", "article");
+        query.put("operate", 1);
+        Operate operates = operateService.findOne(query);
+        article.setIsCollected(operates == null);
         return article;
     }
 
@@ -148,6 +158,7 @@ public class ArticleController {
                 operateService.save(oper);
             }else {
                 operateService.delete(his.getId());
+                return new ResponseBean();
             }
         }
 
@@ -191,8 +202,9 @@ public class ArticleController {
      * @param operate 操作 0-转发 1-收藏 2-点赞 3-喜欢
      * @return
      */
-    @RequestMapping(value = "/operate/{operate}", method = RequestMethod.GET)
-    public @ResponseBody ResponseBean operate(@PathVariable Integer operate, String userId) {
+    @RequestMapping(value = "/operate/{operate}/{pageSize}/{pageIndex}", method = RequestMethod.GET)
+    public @ResponseBody ResponseBean operate(@PathVariable Integer operate, @PathVariable Integer pageSize,
+                                              @PathVariable Integer pageIndex, String userId) {
         JSONObject param = new JSONObject();
         param.put("object", "article");
         param.put("operate", operate);
@@ -207,8 +219,8 @@ public class ArticleController {
         });
 
         String paramJson = "{\"id\": {\"$in\": " + ids + "}}";
-        List<Article> articles = articleService.find(JSON.parseObject(paramJson));
-        for (Article item: articles) {
+        PageBean<Article> articles = articleService.find(new PageBean<>(pageIndex, pageSize), JSON.parseObject(paramJson));
+        for (Article item: articles.getDatas()) {
             item.setContent(null);
         }
         return new ResponseBean(ResponseBean.SUCCESS_CODE, ResponseBean.SUCCESS, articles);

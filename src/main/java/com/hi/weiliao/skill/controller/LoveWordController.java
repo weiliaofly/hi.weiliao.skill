@@ -45,7 +45,26 @@ public class LoveWordController {
             param.put("skillContent", skillContent);
         }
 
-        return loveWordService.find(new PageBean<>(pageIndex, pageSize), param);
+        PageBean<LoveWord> page = loveWordService.find(new PageBean<>(pageIndex, pageSize), param);
+
+        param.clear();
+        param.put("object", "loveWord");
+        JSONObject gte = new JSONObject();
+        gte.put("$gte", 1);
+        param.put("operate", gte);
+        for (LoveWord item : page.getDatas()) {
+            item.setIsAbulous(false);
+            item.setIsCollected(false);
+            param.put("objectId", item.getId());
+            List<Operate> operates = operateService.find(param);
+            operates.forEach(operate -> {
+                Integer o = operate.getOperate();
+                item.setIsAbulous(o == 2 || item.getIsAbulous());
+                item.setIsCollected(o == 1 || item.getIsCollected());
+            });
+        }
+
+        return page;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -96,6 +115,7 @@ public class LoveWordController {
                 operateService.save(oper);
             }else {
                 operateService.delete(his.getId());
+                return new ResponseBean();
             }
         }
 
@@ -139,8 +159,9 @@ public class LoveWordController {
      * @param operate 操作 0-拷贝 1-收藏 2-点赞
      * @return
      */
-    @RequestMapping(value = "/operate/{operate}", method = RequestMethod.GET)
-    public @ResponseBody ResponseBean operate(@PathVariable Integer operate, String userId) {
+    @RequestMapping(value = "/operate/{operate}/{pageSize}/{pageIndex}", method = RequestMethod.GET)
+    public @ResponseBody ResponseBean operate(@PathVariable Integer operate, @PathVariable Integer pageSize,
+                                              @PathVariable Integer pageIndex, String userId) {
         JSONObject param = new JSONObject();
         param.put("object", "");
         param.put("operate", operate);
@@ -155,7 +176,7 @@ public class LoveWordController {
         });
 
         String paramJson = "{\"id\": {\"$in\": " + ids + "}}";
-        List<LoveWord> list = loveWordService.find(JSON.parseObject(paramJson));
+        PageBean<LoveWord> list = loveWordService.find(new PageBean<>(pageIndex, pageSize), JSON.parseObject(paramJson));
         return new ResponseBean(ResponseBean.SUCCESS_CODE, ResponseBean.SUCCESS, list);
     }
 }
