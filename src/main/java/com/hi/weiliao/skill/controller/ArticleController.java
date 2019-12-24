@@ -67,7 +67,7 @@ public class ArticleController {
 
     @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
     public @ResponseBody
-    Article findPage(@PathVariable String id) {
+    Article findPage(@PathVariable String id, String userId) {
         Article article = articleService.findById(id);
         JSONObject query = new JSONObject();
         query.put("article", article.getId());
@@ -82,6 +82,7 @@ public class ArticleController {
         query.put("objectId", article.getId());
         query.put("object", "article");
         query.put("operate", 1);
+        query.put("creator", userId);
         Operate operates = operateService.findOne(query);
         article.setIsCollected(operates == null);
         return article;

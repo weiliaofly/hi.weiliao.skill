@@ -36,7 +36,7 @@ public class LoveWordController {
 
     @RequestMapping(value = "/find/{pageSize}/{pageIndex}", method = RequestMethod.GET)
     public @ResponseBody
-    PageBean<LoveWord> findPage(LoveWord loveWord, @PathVariable Integer pageSize,  @PathVariable Integer pageIndex) {
+    PageBean<LoveWord> findPage(LoveWord loveWord, @PathVariable Integer pageSize,  @PathVariable Integer pageIndex, String userId) {
         JSONObject param = JSON.parseObject(JSON.toJSONString(loveWord));
         logger.info("LoveWord: Query data by param ===>" + JSON.toJSONString(param));
         if(StringUtils.isNotBlank(loveWord.getSkillContent())){
@@ -56,6 +56,7 @@ public class LoveWordController {
             item.setIsAbulous(false);
             item.setIsCollected(false);
             param.put("objectId", item.getId());
+            param.put("creator", userId);
             List<Operate> operates = operateService.find(param);
             operates.forEach(operate -> {
                 Integer o = operate.getOperate();
