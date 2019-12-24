@@ -159,11 +159,11 @@ public class LoveWordController {
      * @param operate 操作 0-拷贝 1-收藏 2-点赞
      * @return
      */
-    @RequestMapping(value = "/operate/{operate}/{pageSize}/{pageIndex}", method = RequestMethod.GET)
+    @RequestMapping(value = "/operate/list/{operate}/{pageSize}/{pageIndex}", method = RequestMethod.GET)
     public @ResponseBody ResponseBean operate(@PathVariable Integer operate, @PathVariable Integer pageSize,
                                               @PathVariable Integer pageIndex, String userId) {
         JSONObject param = new JSONObject();
-        param.put("object", "");
+        param.put("object", "loveWord");
         param.put("operate", operate);
         if(StringUtils.isNotBlank(userId)){
             param.put("creator", userId);
@@ -172,7 +172,7 @@ public class LoveWordController {
 
         List<String> ids = new ArrayList<>();
         loveWords.forEach(item -> {
-            ids.add(item.getId());
+            ids.add("\"" + item.getObjectId() + "\"");
         });
 
         String paramJson = "{\"id\": {\"$in\": " + ids + "}}";

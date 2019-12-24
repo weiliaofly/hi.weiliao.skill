@@ -202,7 +202,7 @@ public class ArticleController {
      * @param operate 操作 0-转发 1-收藏 2-点赞 3-喜欢
      * @return
      */
-    @RequestMapping(value = "/operate/{operate}/{pageSize}/{pageIndex}", method = RequestMethod.GET)
+    @RequestMapping(value = "/operate/list/{operate}/{pageSize}/{pageIndex}", method = RequestMethod.GET)
     public @ResponseBody ResponseBean operate(@PathVariable Integer operate, @PathVariable Integer pageSize,
                                               @PathVariable Integer pageIndex, String userId) {
         JSONObject param = new JSONObject();
@@ -215,7 +215,7 @@ public class ArticleController {
 
         List<String> ids = new ArrayList<>();
         loveWords.forEach(item -> {
-            ids.add(item.getId());
+            ids.add("\"" + item.getObjectId() + "\"");
         });
 
         String paramJson = "{\"id\": {\"$in\": " + ids + "}}";
