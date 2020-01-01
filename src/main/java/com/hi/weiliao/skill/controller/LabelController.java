@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Controller
 @RequestMapping(value = "/label")
@@ -45,6 +46,8 @@ public class LabelController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public @ResponseBody
     ResponseBean create(@RequestBody Label label) {
+        String id = UUID.randomUUID().toString();
+        label.setId(id);
         String now = DateUtils.currentTimeString(DateUtils.YYYYMMDDHHMISS);
         label.setCreateDate(now);
         label.setLastUpdateDate(now);

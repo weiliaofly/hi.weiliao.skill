@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping(value = "/comment")
@@ -44,6 +45,8 @@ public class CommentController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public @ResponseBody
     ResponseBean create(@RequestBody Comment comment) {
+        String id = UUID.randomUUID().toString();
+        comment.setId(id);
         String now = DateUtils.currentTimeString(DateUtils.YYYYMMDDHHMISS);
         comment.setCreateDate(now);
         comment.setLastUpdateDate(now);

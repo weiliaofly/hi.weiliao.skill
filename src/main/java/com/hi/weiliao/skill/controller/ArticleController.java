@@ -93,6 +93,7 @@ public class ArticleController {
     ResponseBean create(@RequestBody Article article) {
         String name = UUID.randomUUID().toString();
         String now = DateUtils.currentTimeString(DateUtils.YYYYMMDDHHMISS);
+        article.setId(name);
         article.setArticleName(name);
         article.setCreateDate(now);
         article.setLastUpdateDate(now);
@@ -212,11 +213,11 @@ public class ArticleController {
         if(StringUtils.isNotBlank(userId)){
             param.put("creator", userId);
         }
-        List<Operate> loveWords = operateService.find(param);
+        List<Operate> operates = operateService.find(param);
 
         List<String> ids = new ArrayList<>();
-        loveWords.forEach(item -> {
-            ids.add("\"" + item.getObjectId() + "\"");
+        operates.forEach(item -> {
+            ids.add(item.getObjectId());
         });
 
         String paramJson = "{\"id\": {\"$in\": " + ids + "}}";

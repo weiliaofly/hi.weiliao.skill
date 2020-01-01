@@ -17,10 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "/loveword")
@@ -72,6 +69,8 @@ public class LoveWordController {
     public @ResponseBody ResponseBean create(@RequestBody List<LoveWord> loveWords) {
         String now = DateUtils.currentTimeString(DateUtils.YYYYMMDDHHMISS);
         for (LoveWord loveWord : loveWords) {
+            String id = UUID.randomUUID().toString();
+            loveWord.setId(id);
             loveWord.setAbulous(loveWord.getAbulous() == null? 0: loveWord.getAbulous());
             loveWord.setCopyNum(loveWord.getCopyNum() == null? 0: loveWord.getCopyNum());
             loveWord.setComment(loveWord.getComment() == null? 0: loveWord.getComment());

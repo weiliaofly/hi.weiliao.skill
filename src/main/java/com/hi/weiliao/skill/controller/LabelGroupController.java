@@ -15,10 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "/labelgroup")
@@ -63,6 +60,8 @@ public class LabelGroupController {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public @ResponseBody ResponseBean create(@RequestBody LabelGroup labelGroup) {
+        String id = UUID.randomUUID().toString();
+        labelGroup.setId(id);
         String now = DateUtils.currentTimeString(DateUtils.YYYYMMDDHHMISS);
         labelGroup.setCreateDate(now);
         labelGroup.setLastUpdateDate(now);
