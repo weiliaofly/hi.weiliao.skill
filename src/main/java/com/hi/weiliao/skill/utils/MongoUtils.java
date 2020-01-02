@@ -104,7 +104,7 @@ public class MongoUtils {
                     criteria.all(V);
                     break;
                 case QueryOperators.IN: //批量in查询
-                    criteria.in(V);
+                    criteria.in((List)V);
                     break;
                 case QueryOperators.NIN: //批量not in 查询
                     criteria.nin(V);

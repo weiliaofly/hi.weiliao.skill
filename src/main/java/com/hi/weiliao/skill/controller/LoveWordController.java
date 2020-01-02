@@ -172,11 +172,14 @@ public class LoveWordController {
 
         List<String> ids = new ArrayList<>();
         loveWords.forEach(item -> {
-            ids.add("\"" + item.getObjectId() + "\"");
+            ids.add(item.getObjectId());
         });
 
-        String paramJson = "{\"id\": {\"$in\": " + ids + "}}";
-        PageBean<LoveWord> list = loveWordService.find(new PageBean<>(pageIndex, pageSize), JSON.parseObject(paramJson));
+        JSONObject in = new JSONObject();
+        JSONObject query = new JSONObject();
+        in.put("$in", ids);
+        query.put("id", in);
+        PageBean<LoveWord> list = loveWordService.find(new PageBean<>(pageIndex, pageSize), query);
         return new ResponseBean(ResponseBean.SUCCESS_CODE, ResponseBean.SUCCESS, list);
     }
 }

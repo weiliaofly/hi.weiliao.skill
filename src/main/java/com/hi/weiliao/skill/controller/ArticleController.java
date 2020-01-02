@@ -220,8 +220,11 @@ public class ArticleController {
             ids.add(item.getObjectId());
         });
 
-        String paramJson = "{\"id\": {\"$in\": " + ids + "}}";
-        PageBean<Article> articles = articleService.find(new PageBean<>(pageIndex, pageSize), JSON.parseObject(paramJson));
+        JSONObject in = new JSONObject();
+        JSONObject query = new JSONObject();
+        in.put("$in", ids);
+        query.put("id", in);
+        PageBean<Article> articles = articleService.find(new PageBean<>(pageIndex, pageSize), query);
         for (Article item: articles.getDatas()) {
             item.setContent(null);
         }
