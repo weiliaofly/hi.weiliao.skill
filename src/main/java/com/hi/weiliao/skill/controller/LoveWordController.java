@@ -179,7 +179,25 @@ public class LoveWordController {
         JSONObject query = new JSONObject();
         in.put("$in", ids);
         query.put("id", in);
-        PageBean<LoveWord> list = loveWordService.find(new PageBean<>(pageIndex, pageSize), query);
-        return new ResponseBean(ResponseBean.SUCCESS_CODE, ResponseBean.SUCCESS, list);
+        PageBean<LoveWord> page = loveWordService.find(new PageBean<>(pageIndex, pageSize), query);
+
+        param.clear();
+        param.put("object", "loveWord");
+        JSONObject gte = new JSONObject();
+        gte.put("$gte", 1);
+        param.put("operate", gte);
+        for (LoveWord item : page.getDatas()) {
+            item.setIsAbulous(false);
+            item.setIsCollected(false);
+            param.put("objectId", item.getId());
+            param.put("creator", userId);
+            List<Operate> operates = operateService.find(param);
+            operates.forEach(opItem -> {
+                Integer o = opItem.getOperate();
+                item.setIsAbulous(o == 2 || item.getIsAbulous());
+                item.setIsCollected(o == 1 || item.getIsCollected());
+            });
+        }
+        return new ResponseBean(ResponseBean.SUCCESS_CODE, ResponseBean.SUCCESS, page);
     }
 }
