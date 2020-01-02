@@ -84,7 +84,7 @@ public class ArticleController {
         query.put("operate", 1);
         query.put("creator", userId);
         Operate operates = operateService.findOne(query);
-        article.setIsCollected(operates == null);
+        article.setIsCollected(operates != null);
         return article;
     }
 
