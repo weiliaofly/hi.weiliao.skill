@@ -75,8 +75,8 @@ public class ArticleController {
         article.setView(article.getView() == null? 1: article.getView() + 1);
         articleService.save(article);
 
-        List<Comment> comments = commentService.find(query);
-        article.setComments(comments);
+        Long count = commentService.count(query);
+        article.setComment(count.intValue());
 
         query.clear();
         query.put("objectId", article.getId());
@@ -85,6 +85,7 @@ public class ArticleController {
         query.put("creator", userId);
         Operate operates = operateService.findOne(query);
         article.setIsCollected(operates != null);
+
         return article;
     }
 

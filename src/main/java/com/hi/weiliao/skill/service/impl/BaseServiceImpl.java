@@ -79,6 +79,12 @@ public class BaseServiceImpl<T> implements IBaseService<T> {
         mongoTemplate.remove(new Query(criteria), clazz);
     }
 
+    @Override
+    public Long count(JSONObject param) {
+        Criteria criteria = MongoUtils.buildQuery(param);
+        return mongoTemplate.count(new Query(criteria), clazz);
+    }
+
     public Class getSuperClassGenericType(Class clazz) {
         Type genType = clazz.getGenericSuperclass();// 得到泛型父类
         // 如果没有实现ParameterizedType接口，即不支持泛型，直接返回Object.class

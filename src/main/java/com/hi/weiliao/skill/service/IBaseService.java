@@ -57,4 +57,10 @@ public interface IBaseService<T> {
      */
      void delete(List<String> ids);
 
+    /**
+     * 查询数量
+     * @return
+     */
+     Long count(JSONObject param);
+
 }
