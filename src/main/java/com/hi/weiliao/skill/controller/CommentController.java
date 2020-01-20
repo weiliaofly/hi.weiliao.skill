@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.hi.weiliao.skill.service.ICommentService;
 import com.hi.weiliao.skill.utils.DateUtils;
+import com.hi.weiliao.skill.utils.HttpConnectionPoolUtil;
+import com.hi.weiliao.skill.utils.HttpUtils;
 import com.hi.weiliao.skill.vo.Comment;
 import com.hi.weiliao.skill.vo.common.PageBean;
 import com.hi.weiliao.skill.vo.common.ResponseBean;
@@ -14,9 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "/comment")
@@ -42,9 +43,30 @@ public class CommentController {
         return pageBean;
     }
 
+    private boolean verifyLegality(String content, HttpServletRequest request){
+        Map<String, String> header = new HashMap<>();
+        header.put("Authorization", request.getHeader("Authorization"));
+        header.put("Content-Type", "application/json");
+        String param = "{\"content\": \""+ content +"\"}";
+        try {
+            String result = HttpConnectionPoolUtil.doPost("https://www.imlmbm.xyz/weiliao/gateway/wechat/msg_sec_check", header, param);
+            if(StringUtils.isBlank(result) || JSON.parseObject(result).getInteger("code") != 200){
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public @ResponseBody
-    ResponseBean create(@RequestBody Comment comment) {
+    ResponseBean create(@RequestBody Comment comment, HttpServletRequest request) {
+        if(!verifyLegality(comment.getContent(), request)){
+            return new ResponseBean(ResponseBean.PARAM_ERROR_CODE, "Illegal content！");
+        }
+
         String id = UUID.randomUUID().toString();
         comment.setId(id);
         String now = DateUtils.currentTimeString(DateUtils.YYYYMMDDHHMISS);
@@ -57,9 +79,13 @@ public class CommentController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public @ResponseBody ResponseBean update(@RequestBody Comment comment) {
+    public @ResponseBody ResponseBean update(@RequestBody Comment comment, HttpServletRequest request) {
+
         if(StringUtils.isBlank(comment.getId())){
             return new ResponseBean(ResponseBean.PARAM_ERROR_CODE, "Id cant been null!");
+        }
+        if(!verifyLegality(comment.getContent(), request)){
+            return new ResponseBean(ResponseBean.PARAM_ERROR_CODE, "Illegal content！");
         }
 
         //查询旧数据
